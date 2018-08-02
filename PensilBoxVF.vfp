@@ -1,0 +1,24 @@
+<apex:page standardController="Pencil__c" recordSetVar="Pencils" extensions="PencilBoxController">  
+    <apex:form >
+        <apex:pageBlock title="Edit Page" id="pencil_list"> 
+
+            <!-- Edit Box_Name Input & Button -->
+            <apex:pageBlockSection >
+                <apex:outputPanel layout="inline" title="Enter Pencil-Box Name in fill space" >
+                    <apex:outputText value="Enter Pencil Box Name: " />
+                    <apex:inputText id="inputName" value="{! newPenBoxName }" />
+                    <apex:commandButton value="Update Name" id="updateButton" action="{!updateBoxName}"   /> 
+				</apex:outputPanel>
+            </apex:pageBlockSection>
+            
+            <!-- Output Data -->
+            <apex:pageBlockTable value="{!pencilList}" var="pl"> 
+                <apex:column headerValue="Pencil Color" value="{!pl.name}" />
+                <apex:column headerValue="Box Name" value="{!pl.Pencil_Box__r.name}" />
+                <apex:column headerValue="Created Date" value="{!pl.createdDate}" />
+                <apex:column headerValue="Owner" value="{!pl.Owner.name}" />  
+            </apex:pageBlockTable>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

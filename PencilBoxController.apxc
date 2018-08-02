@@ -1,0 +1,37 @@
+public with sharing class PencilBoxController {
+    
+    public List<Pencil__c> pencilList {get; set;} 
+    public String message {get; set;}
+    public Pencil_box__c pencilBox{get;set;}
+    public String newPenBoxName {get; set;}
+
+    public PencilBoxController(ApexPages.StandardSetController controller){
+        getPencil();
+        newPenBoxName = pencilBox.Name;
+    }
+    
+    /* Get object data */
+    private void getPencil(){
+        pencilList = [Select name, Pencil__c.Pencil_Box__r.name, format(createdDate), Owner.name From Pencil__c];
+        pencilBox = [Select name From Pencil_box__c];
+    }
+    
+    /* Update Pensil Box Name */
+    public PageReference updateBoxName(){
+        try{
+            if(newPenBoxName == '') {
+                newPenBoxName = 'empty data';
+            }
+            for (Pencil__c pencils : pencilList){
+            		pencils.Pencil_Box__r.name = newPenBoxName;
+            }
+            update pencilList;   
+            return null;
+        }
+        catch (Exception e){
+            message='Data Base error during updating...';
+            ApexPages.addMessage( new ApexPages.Message(ApexPages.Severity.ERROR, message)); 
+            return null;
+        }
+    }
+}
